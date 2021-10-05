@@ -6,6 +6,7 @@ from scipy.integrate import odeint
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from Settings.utils.readers import read_json
+from Settings.utils.rnd_points import rnd_points
 import pylab
 
 config_path = Path('..') / "Settings" / "config.json"
