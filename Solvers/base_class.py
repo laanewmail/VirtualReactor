@@ -12,6 +12,7 @@ import pylab
 config_path = Path('..') / "Settings" / "config.json"
 default_config = read_json(config_path)
 
+
 class Base_Class_For_all:
 
     def __init__(self):
