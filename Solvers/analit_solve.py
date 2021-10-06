@@ -1,4 +1,4 @@
-from base_class import *
+from Solvers.base_class import *
 
 
 class AnalitSolution(Base_Class_For_all):
@@ -49,14 +49,14 @@ class AnalitSolution(Base_Class_For_all):
         ax.set_ylabel('$Yi(t) + rnd$')
 
 
-Solution = AnalitSolution()
-
-Solution.plot_Yi_t(solver=Solution.SolveY1, i=1, norm=1.0)
-Solution.plot_Yi_t(solver=Solution.SolveY3, i=3, norm=2.5)
-Solution.plot_Yi_t(solver=Solution.SolveY5, i=5, norm=18.0)
-
-Solution.plot_Yi_with_rnd_points(solver=Solution.SolveY1, points_number=50, norm=1.0)
-Solution.plot_Yi_with_rnd_points(solver=Solution.SolveY3, points_number=50, norm=2.5)
-Solution.plot_Yi_with_rnd_points(solver=Solution.SolveY5, points_number=50, norm=18.0)
-
-plt.show()
+# Solution = AnalitSolution()
+#
+# Solution.plot_Yi_t(solver=Solution.SolveY1, i=1, norm=1.0)
+# Solution.plot_Yi_t(solver=Solution.SolveY3, i=3, norm=2.5)
+# Solution.plot_Yi_t(solver=Solution.SolveY5, i=5, norm=18.0)
+#
+# Solution.plot_Yi_with_rnd_points(solver=Solution.SolveY1, points_number=50, norm=1.0)
+# Solution.plot_Yi_with_rnd_points(solver=Solution.SolveY3, points_number=50, norm=2.5)
+# Solution.plot_Yi_with_rnd_points(solver=Solution.SolveY5, points_number=50, norm=18.0)
+#
+# plt.show()

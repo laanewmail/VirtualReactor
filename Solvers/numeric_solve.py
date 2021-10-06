@@ -1,6 +1,6 @@
 import pylab
 
-from base_class import *
+from Solvers.base_class import *
 
 
 class NumericSolution(Base_Class_For_all):
@@ -41,11 +41,11 @@ class NumericSolution(Base_Class_For_all):
         pylab.plot(t, yi)
 
 
-solution = NumericSolution()
-res = solution.nf_Solve()
-solution.plot_Yi_t(res.t, res.y[0])
-solution.plot_Yi_t(res.t, res.y[1])
-solution.plot_Yi_t(res.t, res.y[2]/9)
-
-pylab.show()
+# solution = NumericSolution()
+# res = solution.nf_Solve()
+# solution.plot_Yi_t(res.t, res.y[0])
+# solution.plot_Yi_t(res.t, res.y[1])
+# solution.plot_Yi_t(res.t, res.y[2]/9)
+#
+# pylab.show()
 

@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 from Settings.utils.readers import read_json
 from Settings.utils.rnd_points import rnd_points
 import pylab
+from os import environ
 
-config_path = Path('..') / "Settings" / "config.json"
-default_config = read_json(config_path)
+default_config = read_json(environ.get('CONFIG_PATH'))
 
 
 class Base_Class_For_all:
