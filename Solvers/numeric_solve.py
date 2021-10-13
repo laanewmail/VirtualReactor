@@ -19,7 +19,7 @@ class NumericSolution(Base_Class_For_all):
             3 * self.k2 * y3 * y3
         ]
 
-    def nf_Solve(self, y0=None, t=None, max_step=0.1):  # y0 - начальные условия
+    def nf_Solve(self, y0=None, t=None, max_step=2):  # y0 - начальные условия
         return solve_ivp(self.odesystem, t if t else self.t, y0 if y0 else self.y0 , max_step=max_step)
 
     def arrenius(self, k0):
