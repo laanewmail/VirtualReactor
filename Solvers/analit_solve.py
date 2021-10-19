@@ -1,15 +1,9 @@
 from Solvers.base_class import *
+from random import randint as rnd
+from random import random
 
 
 class AnalitSolution(Base_Class_For_all):
-
-    # def __init__(self):
-    #     self.k1 = default_config['k1']
-    #     self.k2 = default_config['k2']
-    #     self.C1 = default_config['C1']
-    #     self.C2 = default_config['C2']
-    #     self.C3 = default_config['C3']
-    #     self.t = np.linspace(*default_config['t'])
 
     def SolveY1(self, param_t):
         return 1 / (self.k1 * param_t + self.C1)
@@ -36,8 +30,8 @@ class AnalitSolution(Base_Class_For_all):
         pylab.figure(i)
         pylab.plot(self.t, solver(self.t)/norm, label=f"Y{i}")
 
-    def plot_Yi_with_rnd_points(self, solver, points_number, norm):
-        points = rnd_points(solver, points_number, norm)
+    def plot_Yi_with_rnd_points(self, solver, norm):
+        points = self.rnd_points(solver, norm)
 
         fig, ax = plt.subplots(
             nrows=1, ncols=1,
@@ -48,6 +42,15 @@ class AnalitSolution(Base_Class_For_all):
         ax.set_xlabel('$t$')
         ax.set_ylabel('$Yi(t) + rnd$')
 
+    def rnd_points(self, our_function, norm=1.0):
+        x = []
+        for i in range(default_config.get("rnd_points_number", 50)):
+            curr_n = self.t[rnd(0, len(self.t)-1)]
+            while curr_n in x:
+                curr_n = self.t[rnd(0, len(self.t)-1)]
+            x.append(curr_n)
+        x.sort()
+        return np.array(x), [(our_function(xi)+our_function(xi)*(random()-0.5)/norm)/norm for xi in x]
 
 # Solution = AnalitSolution()
 #

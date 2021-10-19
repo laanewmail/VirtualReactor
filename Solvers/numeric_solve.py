@@ -5,12 +5,11 @@ from Solvers.base_class import *
 
 class NumericSolution(Base_Class_For_all):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.y0 = [1, 1, 0]
-        self.t = default_config['t'][0:2]
 
-    def odesystem(self, t,  y):  # , params
+    def odesystem(self, y,  t):  # , params
         y1, y3, y5 = y
         # y   z    x
         return [
@@ -19,8 +18,11 @@ class NumericSolution(Base_Class_For_all):
             3 * self.k2 * y3 * y3
         ]
 
-    def nf_Solve(self, y0=None, t=None, max_step=2):  # y0 - начальные условия
-        return solve_ivp(self.odesystem, t if t else self.t, y0 if y0 else self.y0 , max_step=max_step)
+    #def nf_Solve(self, y0=None, t=None, max_step=2):  # y0 - начальные условия
+    #   return solve_ivp(self.odesystem, t if t else self.t, y0 if y0 else self.y0 , max_step=max_step)
+
+    def nf_Solve(self,  y0=None, t=None):  # y0 - начальные условия
+        return odeint(self.odesystem, y0 if y0 else self.y0, t if t else self.t).T
 
     def arrenius(self, k0):
             return k0 * (math.e) ** (-self.E / (self.R * self.T))
