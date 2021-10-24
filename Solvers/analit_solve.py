@@ -5,6 +5,10 @@ from random import random
 
 class AnalitSolution(Base_Class_For_all):
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.generate_rnd_time()
+
     def SolveY1(self, param_t):
         return 1 / (self.k1 * param_t + self.C1)
 
@@ -42,15 +46,18 @@ class AnalitSolution(Base_Class_For_all):
         ax.set_xlabel('$t$')
         ax.set_ylabel('$Yi(t) + rnd$')
 
-    def rnd_points(self, our_function, norm=1.0):
+    def generate_rnd_time(self):
         x = []
         for i in range(default_config.get("rnd_points_number", 50)):
-            curr_n = self.t[rnd(0, len(self.t)-1)]
+            curr_n = self.t[rnd(0, len(self.t) - 1)]
             while curr_n in x:
-                curr_n = self.t[rnd(0, len(self.t)-1)]
+                curr_n = self.t[rnd(0, len(self.t) - 1)]
             x.append(curr_n)
         x.sort()
-        return np.array(x), [(our_function(xi)+our_function(xi)*(random()-0.5)/norm)/norm for xi in x]
+        self.rnd_time = x
+
+    def rnd_points(self, our_function, norm=1.0):
+        return np.array(self.rnd_time), [(our_function(xi)+our_function(xi)*(random()-0.5)/norm)/norm for xi in self.rnd_time]
 
 # Solution = AnalitSolution()
 #
