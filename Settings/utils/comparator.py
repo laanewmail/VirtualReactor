@@ -37,7 +37,7 @@ class Comparator:
         tmp_numeric_solution = []
         rnd_time_indexes = self._get_time_indexes()
         for y in self.numeric_solution:
-            tmp_numeric_solution.append([y[i] for i in rnd_time_indexes])
+            tmp_numeric_solution.append([y[i]/max(y) for i in rnd_time_indexes])
 
         shift = []
         for i, n_solution in enumerate(tmp_numeric_solution):
@@ -73,7 +73,7 @@ class Comparator:
     def _plot_numeric_solution_with_rnd_points(self, shift_obj):
         # pylab.ion()
         pylab.subplot(1, 3, 1)
-        pylab.title(f"K1: {shift_obj['k1']}, K2: {shift_obj['k2']}")
+        pylab.title(f"K1: {shift_obj['k1']}, K2: {shift_obj['k2']}, SHIFT: {shift_obj['shift']}")
         pylab.plot(self.numeric_solver.t, shift_obj['numeric_solution'][0] / max(shift_obj['numeric_solution'][0]))
         pylab.scatter(x=self.experiment_results[0][0], y=self.experiment_results[0][1], marker='o', c='r',
                       edgecolor='b')
