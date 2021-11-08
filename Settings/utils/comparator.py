@@ -22,10 +22,10 @@ class Comparator:
         return [tuple(self.numeric_solver.t).index(t) for t in self.analit_solver.rnd_time]
 
     def generate_experiment_results(self):
-        self.experiment_results = [self.analit_solver.rnd_points(our_function=func, norm=norm)
-                                   for func, norm in [(self.analit_solver.SolveY1, 1.0),
-                                                      (self.analit_solver.SolveY3, 2.5),
-                                                      (self.analit_solver.SolveY5, 18.0)]
+        self.experiment_results = [self.analit_solver.rnd_points(our_function=func)
+                                   for func in [self.analit_solver.SolveY1,
+                                                      self.analit_solver.SolveY3,
+                                                      self.analit_solver.SolveY5]
                                    ]
 
     def calculate_single_k(self, k1: float = None, k2: float = None):
@@ -73,12 +73,12 @@ class Comparator:
     def _plot_numeric_solution_with_rnd_points(self, shift_obj):
         # pylab.ion()
         pylab.subplot(1, 3, 1)
-        pylab.title(f"K1: {shift_obj['k1']}, K2: {shift_obj['k2']}, SHIFT: {shift_obj['shift']}")
         pylab.plot(self.numeric_solver.t, shift_obj['numeric_solution'][0] / max(shift_obj['numeric_solution'][0]))
         pylab.scatter(x=self.experiment_results[0][0], y=self.experiment_results[0][1], marker='o', c='r',
                       edgecolor='b')
 
         pylab.subplot(1, 3, 2)
+        pylab.title(f"K1: {shift_obj['k1']}, K2: {shift_obj['k2']}, SHIFT: {shift_obj['shift']}")
         pylab.plot(self.numeric_solver.t, shift_obj['numeric_solution'][1] / max(shift_obj['numeric_solution'][1]))
         pylab.scatter(x=self.experiment_results[1][0], y=self.experiment_results[1][1], marker='o', c='r',
                       edgecolor='b')
@@ -97,10 +97,10 @@ comparator = Comparator()
 comparator.generate_experiment_results()
 
 k1_range = np.linspace(comparator.numeric_solver.k1 - comparator.numeric_solver.k1 * 0.999,
-                       comparator.numeric_solver.k1 + comparator.numeric_solver.k1 * 0.999,
+                       comparator.numeric_solver.k1 + comparator.numeric_solver.k1 * 3.999,
                        100)
 k2_range = np.linspace(comparator.numeric_solver.k2 - comparator.numeric_solver.k2 * 0.999,
-                       comparator.numeric_solver.k2 + comparator.numeric_solver.k2 * 0.999,
+                       comparator.numeric_solver.k2 + comparator.numeric_solver.k2 * 3.999,
                        100)
 
 comparator.calculate_range_k(k1_range, k2_range)

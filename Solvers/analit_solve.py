@@ -35,7 +35,7 @@ class AnalitSolution(Base_Class_For_all):
         pylab.plot(self.t, solver(self.t)/norm, label=f"Y{i}")
 
     def plot_Yi_with_rnd_points(self, solver, norm):
-        points = self.rnd_points(solver, norm)
+        points = self.rnd_points(solver)
 
         fig, ax = plt.subplots(
             nrows=1, ncols=1,
@@ -56,8 +56,9 @@ class AnalitSolution(Base_Class_For_all):
         x.sort()
         self.rnd_time = x
 
-    def rnd_points(self, our_function, norm=1.0):
-        return np.array(self.rnd_time), [(our_function(xi)+our_function(xi)*(random()-0.5)/norm)/norm for xi in self.rnd_time]
+    def rnd_points(self, our_function):
+        max_val = max([our_function(x) for x in self.t])
+        return np.array(self.rnd_time), [(our_function(xi)+our_function(xi)*(random()-0.5)/max_val)/max_val for xi in self.rnd_time]
 
 # Solution = AnalitSolution()
 #
