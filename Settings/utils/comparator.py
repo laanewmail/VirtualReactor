@@ -1,6 +1,7 @@
+from copy import deepcopy
+
 import numpy as np
 import pylab
-from copy import deepcopy
 
 from Solvers.analit_solve import AnalitSolution
 from Solvers.numeric_solve import NumericSolution
@@ -24,8 +25,8 @@ class Comparator:
     def generate_experiment_results(self):
         self.experiment_results = [self.analit_solver.rnd_points(our_function=func)
                                    for func in [self.analit_solver.SolveY1,
-                                                      self.analit_solver.SolveY3,
-                                                      self.analit_solver.SolveY5]
+                                                self.analit_solver.SolveY3,
+                                                self.analit_solver.SolveY5]
                                    ]
 
     def calculate_single_k(self, k1: float = None, k2: float = None):
@@ -37,7 +38,7 @@ class Comparator:
         tmp_numeric_solution = []
         rnd_time_indexes = self._get_time_indexes()
         for y in self.numeric_solution:
-            tmp_numeric_solution.append([y[i]/max(y) for i in rnd_time_indexes])
+            tmp_numeric_solution.append([y[i] / max(y) for i in rnd_time_indexes])
 
         shift = []
         for i, n_solution in enumerate(tmp_numeric_solution):
@@ -46,19 +47,21 @@ class Comparator:
         return {'shift': sum(sum(shift)), 'numeric_solution': deepcopy(self.numeric_solution)}
 
     def calculate_range_k(self, k1_range, k2_range):
+        operation_id = 0
         min_shift = {'k1': self.numeric_solver.k1,
                      'k2': self.numeric_solver.k2,
                      **self.calculate_single_k(self.numeric_solver.k1, self.numeric_solver.k2)}
-        print(f"K:({min_shift['k1']}, {min_shift['k2']}) ;  SHIFT: {min_shift['shift']}")
+        print(f"{operation_id}) K:({min_shift['k1']}, {min_shift['k2']}) ;  SHIFT: {min_shift['shift']}")
 
         matching_shifts = []
 
         for k1 in k1_range:
             for k2 in k2_range:
+                operation_id += 1
                 curr_shift = {'k1': k1,
                               'k2': k2,
                               **self.calculate_single_k(k1, k2)}
-                print(f"K:({curr_shift['k1']}, {curr_shift['k2']}) ;  SHIFT: {curr_shift['shift']}")
+                print(f"{operation_id}) K:({curr_shift['k1']}, {curr_shift['k2']}) ;  SHIFT: {curr_shift['shift']}")
 
                 if curr_shift['shift'] < min_shift['shift']:
                     min_shift = curr_shift
@@ -66,8 +69,40 @@ class Comparator:
                 elif curr_shift['shift'] == min_shift['shift']:
                     matching_shifts.append(curr_shift)
 
-        print(f"MIN SHIFT: {min_shift}")
-        print(f"MATCHING_SHIFTS: {matching_shifts}")
+        print(f"(all) MIN SHIFT: {min_shift}")
+        print(f"(all) MATCHING_SHIFTS: {matching_shifts}")
+        print(operation_id)
+        self._plot_numeric_solution_with_rnd_points(min_shift)
+
+    def calculate_hilbert(self, k1_range, k2_range, x_power=5):
+        operation_id = 0
+        min_shift = {'k1': self.numeric_solver.k1,
+                     'k2': self.numeric_solver.k2,
+                     **self.calculate_single_k(self.numeric_solver.k1, self.numeric_solver.k2)}
+        print(f"{operation_id}) K:({min_shift['k1']}, {min_shift['k2']}) ;  SHIFT: {min_shift['shift']}")
+
+        matching_shifts = []
+
+        k1_i_range = [k for i, k in enumerate(np.linspace(*k1_range, pow(2, x_power + 1) + 1)) if i % 2 != 0]
+        k2_i_range = [k for i, k in enumerate(np.linspace(*k2_range, pow(2, x_power + 1) + 1)) if i % 2 != 0]
+
+        for k1 in k1_i_range:
+            for k2 in k2_i_range:
+                operation_id += 1
+                curr_shift = {'k1': k1,
+                              'k2': k2,
+                              **self.calculate_single_k(k1, k2)}
+                print(f"{operation_id}) K:({curr_shift['k1']}, {curr_shift['k2']}) ;  SHIFT: {curr_shift['shift']}")
+
+                if curr_shift['shift'] < min_shift['shift']:
+                    min_shift = curr_shift
+                    matching_shifts = []
+                elif curr_shift['shift'] == min_shift['shift']:
+                    matching_shifts.append(curr_shift)
+
+        print(f"(hilbert) MIN SHIFT: {min_shift}")
+        print(f"(hilbert) MATCHING_SHIFTS: {matching_shifts}")
+        print(operation_id)
         self._plot_numeric_solution_with_rnd_points(min_shift)
 
     def _plot_numeric_solution_with_rnd_points(self, shift_obj):
@@ -95,12 +130,16 @@ class Comparator:
 comparator = Comparator()
 
 comparator.generate_experiment_results()
+k1_range = [comparator.numeric_solver.k1 - comparator.numeric_solver.k1 * 0.999,
+            comparator.numeric_solver.k1 + comparator.numeric_solver.k1 * 3.999]
 
-k1_range = np.linspace(comparator.numeric_solver.k1 - comparator.numeric_solver.k1 * 0.999,
-                       comparator.numeric_solver.k1 + comparator.numeric_solver.k1 * 3.999,
-                       100)
-k2_range = np.linspace(comparator.numeric_solver.k2 - comparator.numeric_solver.k2 * 0.999,
-                       comparator.numeric_solver.k2 + comparator.numeric_solver.k2 * 3.999,
-                       100)
+k2_range = [comparator.numeric_solver.k2 - comparator.numeric_solver.k2 * 0.999,
+            comparator.numeric_solver.k2 + comparator.numeric_solver.k2 * 3.999]
 
-comparator.calculate_range_k(k1_range, k2_range)
+k1_range_linspace = np.linspace(*k1_range, 100)
+k2_range_linspace = np.linspace(*k2_range, 100)
+
+# TODO: добавить рекурсивные разбиения
+# TODO: привести параметры к одному виду
+comparator.calculate_range_k(k1_range_linspace, k2_range_linspace)
+comparator.calculate_hilbert(k1_range, k2_range, 4)
