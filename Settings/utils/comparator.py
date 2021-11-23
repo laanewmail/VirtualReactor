@@ -73,6 +73,7 @@ class Comparator:
         print(f"(all) MATCHING_SHIFTS: {matching_shifts}")
         print(operation_id)
         self._plot_numeric_solution_with_rnd_points(min_shift, f'All points ({operation_id} points)')
+        min_shift.update({"iterations": operation_id})
         return min_shift
 
     def calculate_hilbert(self, k1_range, k2_range, x_power=5):
@@ -105,6 +106,7 @@ class Comparator:
         print(f"(hilbert) MATCHING_SHIFTS: {matching_shifts}")
         print(operation_id)
         self._plot_numeric_solution_with_rnd_points(min_shift, f'Hilbert ({operation_id} points, X_power = {x_power})')
+        min_shift.update({"iterations": operation_id})
         return min_shift
 
     def _plot_numeric_solution_with_rnd_points(self, shift_obj, window_name='Window'):
@@ -129,25 +131,3 @@ class Comparator:
         pylab.show()
         # pylab.pause(1)
         # pylab.close()
-
-
-comparator = Comparator()
-
-comparator.generate_experiment_results()
-k1_range = [comparator.numeric_solver.k1 * 0.001, comparator.numeric_solver.k1 * 4.999]
-
-k2_range = [comparator.numeric_solver.k2 * 0.001, comparator.numeric_solver.k2 * 4.999]
-
-k1_range_linspace = np.linspace(*k1_range, 20)
-k2_range_linspace = np.linspace(*k2_range, 20)
-
-# TODO: добавить рекурсивные разбиения
-# TODO: привести параметры к одному виду
-min_all_points = comparator.calculate_range_k(k1_range_linspace, k2_range_linspace)
-min_hilbert_points = comparator.calculate_hilbert(k1_range, k2_range, 3)
-
-min_all_points.pop('numeric_solution')
-min_hilbert_points.pop('numeric_solution')
-
-print(f"MIN_ALL_POINTS: {min_all_points}")
-print(f"MIN_HILBERT_POINTS: {min_hilbert_points}")
