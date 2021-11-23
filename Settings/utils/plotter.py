@@ -19,11 +19,12 @@ def plot_all(**kwargs):
 
     pylab.subplot(3, 3, 2)
     pylab.title("Аналитическое решение")
-    pylab.plot(A_Solver.t, A_Solver.SolveY1(A_Solver.t)/1.0)
+    a_solve_1 = A_Solver.SolveY1(A_Solver.t)
+    pylab.plot(A_Solver.t, a_solve_1/max(a_solve_1))
 
     pylab.subplot(3, 3, 3)
     pylab.title("Экспериментальные данные")
-    points = A_Solver.rnd_points(A_Solver.SolveY1, norm=1.0)
+    points = A_Solver.rnd_points(A_Solver.SolveY1)
     pylab.scatter(x=points[0], y=points[1], marker='o', c='r', edgecolor='b')
 
     # SOLVE 2
@@ -31,10 +32,11 @@ def plot_all(**kwargs):
     pylab.plot(N_Solver.t, N_Solution[1])
 
     pylab.subplot(3, 3, 5)
-    pylab.plot(A_Solver.t, A_Solver.SolveY3(A_Solver.t) / 2.5)
+    a_solve_3 = A_Solver.SolveY3(A_Solver.t)
+    pylab.plot(A_Solver.t,  a_solve_3 / max(a_solve_3))
 
     pylab.subplot(3, 3, 6)
-    points = A_Solver.rnd_points(A_Solver.SolveY3, norm=2.5)
+    points = A_Solver.rnd_points(A_Solver.SolveY3)
     pylab.scatter(x=points[0], y=points[1], marker='o', c='r', edgecolor='b')
 
     # SOLVE 3
@@ -42,10 +44,11 @@ def plot_all(**kwargs):
     pylab.plot(N_Solver.t, N_Solution[2]/9)
 
     pylab.subplot(3, 3, 8)
-    pylab.plot(A_Solver.t, A_Solver.SolveY5(A_Solver.t) / 18.0)
+    a_solve_5 = A_Solver.SolveY5(A_Solver.t)
+    pylab.plot(A_Solver.t, a_solve_5 / max(a_solve_5))
 
     pylab.subplot(3, 3, 9)
-    points = A_Solver.rnd_points(A_Solver.SolveY5, norm=18)
+    points = A_Solver.rnd_points(A_Solver.SolveY5)
     pylab.scatter(x=points[0], y=points[1], marker='o', c='r', edgecolor='b')
 
     pylab.show()
