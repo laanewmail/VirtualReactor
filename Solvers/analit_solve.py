@@ -3,7 +3,7 @@ from random import randint as rnd
 from random import random
 
 
-class AnalitSolution(Base_Class_For_all):
+class AnalitSolution(BaseClassForAll):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

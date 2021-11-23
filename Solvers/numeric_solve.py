@@ -3,7 +3,7 @@ import pylab
 from Solvers.base_class import *
 
 
-class NumericSolution(Base_Class_For_all):
+class NumericSolution(BaseClassForAll):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

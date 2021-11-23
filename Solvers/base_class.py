@@ -12,7 +12,7 @@ from os import environ
 default_config = read_json(environ.get('CONFIG_PATH'))
 
 
-class Base_Class_For_all:
+class BaseClassForAll:
 
     def __init__(self, time=None):
         self.k1 = default_config['k1']
