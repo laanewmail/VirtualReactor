@@ -134,11 +134,9 @@ class Comparator:
 comparator = Comparator()
 
 comparator.generate_experiment_results()
-k1_range = [comparator.numeric_solver.k1 - comparator.numeric_solver.k1 * 0.999,
-            comparator.numeric_solver.k1 + comparator.numeric_solver.k1 * 3.999]
+k1_range = [comparator.numeric_solver.k1 * 0.001, comparator.numeric_solver.k1 * 4.999]
 
-k2_range = [comparator.numeric_solver.k2 - comparator.numeric_solver.k2 * 0.999,
-            comparator.numeric_solver.k2 + comparator.numeric_solver.k2 * 3.999]
+k2_range = [comparator.numeric_solver.k2 * 0.001, comparator.numeric_solver.k2 * 4.999]
 
 k1_range_linspace = np.linspace(*k1_range, 20)
 k2_range_linspace = np.linspace(*k2_range, 20)
