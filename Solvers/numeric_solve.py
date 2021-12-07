@@ -1,13 +1,20 @@
+from os import environ as env
 from random import randint as rnd
 from random import random
 
-from Solvers.base_class import *
+import numpy as np
+from scipy.integrate import odeint
+
+from Settings.utils.readers import read_json
 
 
-class NumericSolution(BaseClassForAll):
+class NumericSolution:
+    default_config = read_json(env.get('CONFIG_PATH'))
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, time=None):
+        self.k1 = self.default_config['k1']
+        self.k2 = self.default_config['k2']
+        self.t = np.linspace(*self.default_config['t']) if time is None else time
         self.y0 = [1, 1, 0]
         self.generate_rnd_time()
 
@@ -25,7 +32,7 @@ class NumericSolution(BaseClassForAll):
 
     def generate_rnd_time(self):
         x = []
-        for i in range(default_config.get("rnd_points_number", 50)):
+        for i in range(self.default_config.get("rnd_points_number", 50)):
             curr_n = self.t[rnd(0, len(self.t) - 1)]
             while curr_n in x:
                 curr_n = self.t[rnd(0, len(self.t) - 1)]
