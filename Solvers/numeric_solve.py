@@ -40,12 +40,12 @@ class NumericSolution:
         x.sort()
         self.rnd_time = x
 
-    def _get_time_indexes(self):
+    def get_time_indexes(self):
         return [tuple(self.t).index(time) for time in self.rnd_time]
 
     def rnd_points(self, num_solution):
 
-        rnd_indexes = self._get_time_indexes()
+        rnd_indexes = self.get_time_indexes()
         result = []
         for solution in num_solution:
             solution_delta = []
